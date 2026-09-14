@@ -945,6 +945,7 @@ body.auth-open { overflow: hidden; }
 .level-track { height: 6px; margin-top: 18px; overflow: hidden; border-radius: var(--r-pill); background: rgba(255,255,255,.24); }
 .level-track i { display: block; height: 100%; border-radius: var(--r-pill); background: rgba(255,255,255,.88); }
 .level-card p { margin: 8px 0 0; color: rgba(255,255,255,.82); font-size: 11px; }
+.kanshan-static { position: absolute; right: 24px; bottom: 12px; opacity: .16; font-size: 55px; }
 .level-card.level-flash { animation: level-flash .8s ease; }
 .record-heading h3 { margin: 22px 0 12px; font-size: 17px; }
 .record-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 12px; }
