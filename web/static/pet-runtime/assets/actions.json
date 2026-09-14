@@ -1,0 +1,103 @@
+{
+  "description": "黑松克桌面宠物 - 动作/状态素材清单",
+  "actions": {
+    "normal": {
+      "label": "待机",
+      "trigger": "无操作期间，每隔3分钟自动触发一次；其余时间显示静止帧",
+      "frameCount": 9,
+      "path": "assets/normal/normal_*.png",
+      "status": "已就绪"
+    },
+    "wave": {
+      "label": "挥手打招呼",
+      "trigger": "启动 / 用户返回时触发",
+      "frameCount": 12,
+      "path": "assets/wave/wave_*.png",
+      "status": "已就绪"
+    },
+    "idea": {
+      "label": "灵感/想法",
+      "trigger": "提出建议 / 有新想法时触发（头顶灯泡）",
+      "frameCount": 12,
+      "path": "assets/idea/idea_*.png",
+      "status": "已就绪"
+    },
+    "followup": {
+      "label": "深入追问",
+      "trigger": "用户追问细节 / 深入交流时触发（戴眼镜+问号）",
+      "frameCount": 16,
+      "path": "assets/followup/followup_*.png",
+      "status": "已就绪"
+    },
+    "lv2": {
+      "label": "升级 Lv.2",
+      "trigger": "角色升到等级2时触发一次",
+      "frameCount": 16,
+      "path": "assets/levelup/levelup_*.png",
+      "status": "已就绪"
+    },
+    "lv3": {
+      "label": "升级 Lv.3",
+      "trigger": "角色升到等级3时触发一次",
+      "frameCount": 16,
+      "path": "assets/levelup/levelup_*.png",
+      "status": "已就绪"
+    },
+    "lv4": {
+      "label": "升级 Lv.4",
+      "trigger": "角色升到等级4时触发一次",
+      "frameCount": 16,
+      "path": "assets/levelup/levelup_*.png",
+      "status": "已就绪"
+    },
+    "lv5": {
+      "label": "升级 Lv.5",
+      "trigger": "角色升到等级5时触发一次",
+      "frameCount": 16,
+      "path": "assets/levelup/levelup_*.png",
+      "status": "已就绪"
+    },
+    "crosslink": {
+      "label": "跨学科同源",
+      "trigger": "系统发现跨学科知识关联时触发",
+      "frameCount": 16,
+      "path": "assets/crosslink/crosslink_*.png",
+      "status": "已就绪"
+    },
+    "savecard": {
+      "label": "存为知识卡片",
+      "trigger": "用户把内容存成知识卡片时触发",
+      "frameCount": 18,
+      "path": "assets/savecard/savecard_*.png",
+      "status": "已就绪"
+    },
+    "mastered": {
+      "label": "复习掌握",
+      "trigger": "复习考核判定为已掌握时触发",
+      "frameCount": 16,
+      "path": "assets/mastered/mastered_*.png",
+      "status": "已就绪"
+    },
+    "forgotten": {
+      "label": "复习遗忘/模糊",
+      "trigger": "复习考核判定为遗忘或模糊时触发",
+      "frameCount": 16,
+      "path": "assets/forgotten/forgotten_*.png",
+      "status": "已就绪"
+    },
+    "newnote": {
+      "label": "新建笔记",
+      "trigger": "用户新建一篇笔记时触发",
+      "frameCount": 16,
+      "path": "assets/newnote/newnote_*.png",
+      "status": "已就绪"
+    },
+    "newbook": {
+      "label": "整理书架/新建书籍",
+      "trigger": "用户整理书架或新建书籍时触发",
+      "frameCount": 15,
+      "path": "assets/newbook/newbook_*.png",
+      "status": "已就绪"
+    }
+  }
+}
