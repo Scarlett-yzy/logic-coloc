@@ -561,7 +561,6 @@ async function saveKnowledgeCard() {
   }
   button.disabled = false; button.textContent = "确认存入卡片";
   playDesktopPetAction("savecard");
-  playTopbarPetAction("blink");
   closeSaveCardSheet();
 }
 
@@ -611,7 +610,7 @@ async function explain() {
   setLoading(true, "正在提取逻辑结构并请求模型…", $("explainButton"));
   try {
     const data = await request("/api/explain", { text });
-    addPoints(10, "读懂新概念"); playTopbarPetAction("idea");
+    addPoints(10, "读懂新概念"); playDesktopPetAction("idea");
     setDraftForPanel("explainPanel", text);
     state.explainSessionId = data.session_id;
     addHistory("读懂它", text, state.explainSessionId, data);
@@ -639,7 +638,7 @@ async function chat() {
   try {
     const data = await request("/api/chat", { session_id: state.explainSessionId, message });
     state.explainFollowupCount += 1;
-    if (state.explainFollowupCount === 3) { addPoints(5, "深入追问（达3次）"); playTopbarPetAction("followup"); }
+    if (state.explainFollowupCount === 3) { addPoints(5, "深入追问（达3次）"); playDesktopPetAction("followup"); }
     addMessage("assistant", data.answer || "暂时没有生成回答。");
     const items = getHistory(); const saved = items.find((item) => item.sessionId === state.explainSessionId);
     if (saved) { saved.fullResponse = { ...(saved.fullResponse || {}), conversation: state.explainConversation }; saveHistory(items); }
@@ -962,7 +961,7 @@ async function discover() {
       showError("discoverError", "同源分析当前无法连接模型后端，请确认 LLM 网关已经启动。");
     } else if (foundReliable) {
       addPoints(15, "发现跨学科同源");
-      playTopbarPetAction("crosslink");
+      playDesktopPetAction("crosslink");
     }
   } catch (error) { if (error.name !== "AbortError") { console.error("Discover request failed", error); showError("discoverError", error.message); } }
   finally { if (state.discoverRequestId === requestId) { state.discoverAbortController = null; state.discoverRequestId = null; setLoading(false, "", $("discoverButton")); } }
@@ -1751,7 +1750,7 @@ async function applyReviewSchedule(cardRef, quality) {
   // 不能等用户自己退出去再进来。
   if ($("schedulePage") && !$("schedulePage").hidden) { await refreshScheduleCards(); renderSchedule(scheduleFilter); }
 }
-async function slideToNext(quality) { const current = reviewQueue[reviewPosition]; if (!current) return; $("flashcard").classList.add("leaving"); await applyReviewSchedule(current, quality); if (quality === "掌握") { addPoints(10, "复习掌握"); playDesktopPetAction("mastered"); playTopbarPetAction("blink"); reviewStats.mastered += 1; } else { addPoints(2, "复习考核遗忘/模糊"); playDesktopPetAction("forgotten"); playTopbarPetAction("blink"); reviewStats.difficult.add(current.id); } reviewQueue.splice(reviewPosition, 1); if (quality === "忘记了") reviewQueue.push(current); saveReviewSession(); reviewPosition = 0; window.setTimeout(updateReviewCard, 240); }
+async function slideToNext(quality) { const current = reviewQueue[reviewPosition]; if (!current) return; $("flashcard").classList.add("leaving"); await applyReviewSchedule(current, quality); if (quality === "掌握") { addPoints(10, "复习掌握"); playDesktopPetAction("mastered"); reviewStats.mastered += 1; } else { addPoints(2, "复习考核遗忘/模糊"); playDesktopPetAction("forgotten"); reviewStats.difficult.add(current.id); } reviewQueue.splice(reviewPosition, 1); if (quality === "忘记了") reviewQueue.push(current); saveReviewSession(); reviewPosition = 0; window.setTimeout(updateReviewCard, 240); }
 function finishReviewAnswer(action) { if (!reviewQueue[reviewPosition]) return; const quality = action === "wrong" || pendingMemoryChoice === "forgot" ? "忘记了" : pendingMemoryChoice === "vague" ? "模糊" : "掌握"; slideToNext(quality); }
 function renderReviewLibrary(filter) { const cards = allReviewCards().filter((card) => filter === "all" || card.status === filter); const list = $("reviewCardList"); list.replaceChildren();
   // 列表为空时以前是整片空白：「未掌握」那个 tab 走的是复习测试、有自己的「今天没有需要复习的
@@ -1972,7 +1971,7 @@ $("saveCardSheetClose").addEventListener("click", closeSaveCardSheet);
 $("cancelSaveCard").addEventListener("click", closeSaveCardSheet);
 $("confirmSaveCard").addEventListener("click", saveKnowledgeCard);
 // 卡片编辑页的“保存卡片”也属于知识存卡反馈；独立监听不改动原有保存流程。
-$("saveCard").addEventListener("click", () => { window.setTimeout(() => { playDesktopPetAction("savecard"); playTopbarPetAction("blink"); }, 0); });
+$("saveCard").addEventListener("click", () => { window.setTimeout(() => playDesktopPetAction("savecard"), 0); });
 // 下拉里选「＋ 新建书本…」：先把 value 拨回原来那本（哨兵值不能留在 select 上，理由见
 // NEW_BOOK_OPTION 的注释），再转去建书 —— 与「一本书都没有」那条路完全同一套。
 $("shelfSelect").addEventListener("change", () => {
@@ -2050,7 +2049,7 @@ $("cancelLoading").addEventListener("click", cancelDiscover);
 $("imageImportFile").addEventListener("change", (event) => importImage(event.target.files?.[0]));
 
 $("backToShelf").addEventListener("click", () => { $("bookDetail").hidden = true; $("bookList").hidden = false; $("newBookButton").hidden = false; });
-$("newBookButton").addEventListener("click", () => { openBookSheet(); playDesktopPetAction("newbook"); playTopbarPetAction("blink"); });
+$("newBookButton").addEventListener("click", () => { openBookSheet(); playDesktopPetAction("newbook"); });
 $("bookSheetClose").addEventListener("click", closeBookSheet); $("cancelBook").addEventListener("click", closeBookSheet);
 $("deleteBookButton").addEventListener("click", () => { if (!editingBookId) return; $("bookSheet").hidden = true; $("bookDeleteConfirm").hidden = false; });
 $("closeBookDeleteConfirm").addEventListener("click", () => { $("bookDeleteConfirm").hidden = true; $("bookSheet").hidden = false; });
@@ -2139,7 +2138,7 @@ $("saveNote").addEventListener("click", async () => {
   if (!title && !body) return;
   const existing = getNotes().find((item) => item.id === editingNoteId); const attachments = pendingAttachments.filter((file) => file.noteId === editingNoteId).map((file) => ({ ...file, noteId: editingNoteId })); const note = { id: editingNoteId, folderId: $("noteCategorySelect").value, title: title || "未命名笔记", content: body || NOTE_EMPTY_BODY, coverUrl: pendingNoteCoverUrl, date: new Date().toISOString(), attachments, template: clone(pendingNoteTemplate), starred: existing?.starred || false, syncStatus: "local" }; saveNote(note); saveAttachmentDrafts(); if (!existing) addPoints(10, "新建笔记");
   if (DEMO_MODE) { showToast("演示笔记已保存（刷新页面后自动清空）"); } else { try { const response = await authFetch(apiUrl("/api/notes/save"), { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ...note, syncStatus: "synced" }) }); if (!response.ok) throw new Error(); note.syncStatus = "synced"; saveNote(note); showToast("笔记已同步云端"); } catch { showToast("后端暂未连通，已保存在本机浏览器中。"); } }
-  playDesktopPetAction("newnote"); playTopbarPetAction("blink");
+  playDesktopPetAction("newnote");
   renderNotes($("noteSearch").value); renderProfile(); closeNoteSheet();
   activateAppPage("notesPage");
 });
@@ -2311,7 +2310,7 @@ async function initAuth() {
   currentUser = data.user || null;
   authProfile = data.profile || null;
   const loginDay = new Date().toISOString().slice(0, 10);
-  if (localStorage.getItem(storageKeys.dailyLogin) !== loginDay) { localStorage.setItem(storageKeys.dailyLogin, loginDay); addPoints(3, "每日登录"); playTopbarPetAction("wave"); }
+  if (localStorage.getItem(storageKeys.dailyLogin) !== loginDay) { localStorage.setItem(storageKeys.dailyLogin, loginDay); addPoints(3, "每日登录"); }
   applyStorageScope(currentUser?.id || "");
   // 顺序要紧，三步不能换：① 认领账号体系之前留在无命名空间 key 里的书架；
   // ② 再擦掉老版本种进 localStorage 的种子数据；③ 最后才进 bootApp()（里面会拉/推
