@@ -441,7 +441,7 @@ logic_coloc/            ← 仓库根 = Python 包本身
 | [`demo/README.md`](demo/README.md) | 演示视频的文件清单，以及重新剪辑 / 重新录屏的方法 |
 | [`CLAUDE.md`](CLAUDE.md) | 分层约定与设计取舍（**面向维护者**，含"别顺手改回去"的坑） |
 
-演示视频可以自己重剪：**原始 webm（45 秒全流程，无加速）放在 fork 的 Release 里**——
+演示视频可以自己重剪：**原始 webm（4 分 27 秒全流程，无加速）放在 fork 的 Release 里**——
 <https://github.com/qgeng1465/logic-coloc/releases/tag/demo-recording>，下载后改
 `demo/edit_demo.py` 顶部的 `ACCEL`（等待段加速倍率）/ `W,H`（输出尺寸）/ `crf`（画质）
 再跑一次即可，不用重新录屏。（写绝对地址是因为这枚 Release 在 fork 上，本仓库还没有。）
