@@ -829,7 +829,7 @@ body.auth-open { overflow: hidden; }
 .pet-sprite-button:focus-visible { outline: 3px solid var(--brand-400); outline-offset: -4px; border-radius: 50%; }
 .pet-sprite-button:active img { transform: translateY(2px) scale(.985); }
 .pet-stage-glow { position: absolute; left: 50%; bottom: 13px; width: 245px; height: 82px; transform: translateX(-50%); border-radius: 50%; background: radial-gradient(closest-side, rgba(103,170,243,.22), transparent); }
-.pet-sprite-button img { position: relative; z-index: 1; width: min(286px, 82vw); height: 286px; object-fit: contain; object-position: center bottom; transition: transform .12s ease; user-select: none; -webkit-user-drag: none; }
+.pet-sprite-button img { position: relative; z-index: 1; width: min(286px, 82vw); height: 286px; object-fit: fill; object-position: center bottom; transition: transform .12s ease; user-select: none; -webkit-user-drag: none; }
 .pet-status-row { position: relative; z-index: 2; display: flex; align-items: center; gap: 7px; min-height: 24px; color: var(--muted); font-size: 11px; }
 .pet-status-row strong { color: var(--ink); font-size: 13px; }
 .pet-status-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--brand-500); box-shadow: 0 0 0 4px rgba(103,170,243,.13); }
@@ -1931,7 +1931,7 @@ label,
 .local-loading.is-long-loading .loading-cancel { width: 100%; margin-left: 0; }
 .pet-reaction-overlay { position: fixed; left: 50%; top: 50%; z-index: 60; display: grid; justify-items: center; gap: 8px; transform: translate(-50%, -50%); padding: 14px 18px; border: 1px solid var(--hairline); border-radius: 20px; background: rgba(255,255,255,.92); box-shadow: var(--sh-2); pointer-events: none; }
 .pet-reaction-overlay[hidden] { display: none; }
-.pet-reaction-overlay img { width: min(220px, 52vw); height: min(220px, 52vw); object-fit: contain; }
+.pet-reaction-overlay img { width: min(220px, 52vw); height: min(220px, 52vw); object-fit: fill; }
 .pet-reaction-overlay strong { color: var(--ink); font-size: 16px; }
 
 /* 极短角标也统一到 15px，不留“角标可以继续小”的例外。 */

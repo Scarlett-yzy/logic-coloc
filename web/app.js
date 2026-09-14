@@ -1607,7 +1607,12 @@ function addPoints(amount, reason = "") {
   // 本地不是权威：刷新页面时 /api/auth/me 会重新灌一遍，乐观多算的会自己纠正回来。
   setPoints(total, reason);
   renderProfile(); updateReviewCounts();
-  if (previousLevel.level !== currentLevel.level) { showToast(`🎉 恭喜升级！${currentLevel.level} ${currentLevel.title}`); document.querySelectorAll(".level-card").forEach((card) => { card.classList.remove("level-flash"); void card.offsetWidth; card.classList.add("level-flash"); }); }
+  if (previousLevel.level !== currentLevel.level) {
+    showToast(`🎉 恭喜升级！${currentLevel.level} ${currentLevel.title}`);
+    document.querySelectorAll(".level-card").forEach((card) => { card.classList.remove("level-flash"); void card.offsetWidth; card.classList.add("level-flash"); });
+    // 让升级撒花晚于调用方紧接着播放的普通动作，避免被立即覆盖。
+    window.setTimeout(() => playDesktopPetAction("levelup"), 220);
+  }
   // 只发增量：服务端是唯一权威，客户端说「我现在有 9999 分」不该被当真。
   authFetch(apiUrl("/api/user/points"), { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ delta: amount, reason }) })
     .then((response) => (response.ok ? response.json() : null))
@@ -1966,6 +1971,8 @@ $("saveCardButton").addEventListener("click", openSaveCardSheet);
 $("saveCardSheetClose").addEventListener("click", closeSaveCardSheet);
 $("cancelSaveCard").addEventListener("click", closeSaveCardSheet);
 $("confirmSaveCard").addEventListener("click", saveKnowledgeCard);
+// 卡片编辑页的“保存卡片”也属于知识存卡反馈；独立监听不改动原有保存流程。
+$("saveCard").addEventListener("click", () => { window.setTimeout(() => { playDesktopPetAction("savecard"); playTopbarPetAction("blink"); }, 0); });
 // 下拉里选「＋ 新建书本…」：先把 value 拨回原来那本（哨兵值不能留在 select 上，理由见
 // NEW_BOOK_OPTION 的注释），再转去建书 —— 与「一本书都没有」那条路完全同一套。
 $("shelfSelect").addEventListener("change", () => {
